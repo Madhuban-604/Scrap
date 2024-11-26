@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Bookings | WanderWise</title>
+    <style>
+        /* Global Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0078a0;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .navbar .nav-links a, .navbar .profile {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .navbar .nav-links a:hover, .navbar .profile:hover {
+            color: #0078a0;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        .content h1 {
+            font-size: 36px;
+            color: #0078a0;
+            margin-bottom: 20px;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+            text-align: left;
+        }
+
+        .booking-form label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
+        }
+
+        .booking-form input, .booking-form select, .booking-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .booking-form button {
+            padding: 12px 20px;
+            background-color: #0078a0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .booking-form button:hover {
+            background-color: #005f7a;
+        }
+
+        .booking-form .login-btn {
+    display: block;
+    width: fit-content;
+    margin: 20px auto; /* Centers the button */
+    text-align: center;
+    background-color: #0078a0;
+    color: white;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.booking-form .login-btn:hover {
+    background-color: #005f7a;
+}
+
+        
+        /* Booking Options with Blur Effect */
+        #bookingOptions {
+            display: none;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        #bookingOptions h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #0078a0;
+        }
+
+        #bookingOptions ul {
+            list-style-type: none;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        #bookingOptions ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px 0;
+            font-size: 14px;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+        .footer-section {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #00a2d1;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+        .footer-section ul li a:hover {
+            color: #00a2d1;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: left;
+            gap: 10px;
+        }
+
+        .social-icons a img {
+            width: 36px;
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Center Button Styling */
+        .center-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="{% url 'landing' %}" class="brand">WanderWise</a>
+        <div class="nav-links">
+            <a href="{% url 'explore' %}">Explore Destinations</a>
+            <a href="{% url 'packages' %}">Travel Packages</a>
+            <a href="{% url 'bookings' %}">Bookings</a>
+            <a href="{% url 'bookingDetails' %}">Details</a>
+            <a href="{% url 'contact' %}">Contact Us</a>
+        </div>
+        <a href="{% url 'profile' %}" class="profile">👤Profile</a>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <h1>Book Your Dream Package</h1>
+
+        {% if user.is_authenticated %}
+        <!-- User is logged in, show booking form -->
+        <div class="booking-form">
+            <form id="bookingForm" onsubmit="return handleSubmit(event)">
+                <label for="package">Select a Package:</label>
+                <select id="package" required>
+                    <option value="">-- Select a Package --</option>
+                    <option value="Sunny-beach-getaway">Sunny Beach Getaway</option>
+                    <option value="Mountain-adventure">Mountain Adventure</option>
+                    <option value="City Exploration">City Exploration</option>
+                    <option value="Desert Adventure">Desert Adventure</option>
+                    <option value="Lake Serenity">Lake Serenity</option>
+                </select>
+
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+
+                <label for="persons">Number of Persons:</label>
+                <input type="number" id="persons" placeholder="Enter number of persons" min="1" required>
+
+                <label for="checkin">Check-In Date:</label>
+                <input type="date" id="checkin" required>
+
+                <label for="checkout">Check-Out Date:</label>
+                <input type="date" id="checkout" required>
+
+                <label for="totalAmount">Total Amount:</label>
+                <input type="text" id="totalAmount" readonly placeholder="₹0">
+
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <div class="center-button">
+                    <!-- Payment Button -->
+                    <button id="rzp-button" type="button" onclick="processPayment()">Book Now</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="bookingOptions">
+            <h2>Booking Details</h2>
+            <p>Thank you, <span id="userName"></span>! Based on your selection, here are your booking details:</p>
+            <ul id="optionsList">
+                <!-- Dynamic booking options will be injected here -->
+            </ul>
+
+            <div class="extra-info">
+                <h3>Additional Information</h3>
+                <p>We will send you a confirmation email with further details and a payment link after you complete the booking process.</p>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="booking-form">
+            <p>Please log in to make a bookings.</p>
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About WanderWise</h4>
+                <p>WanderWise is your go-to travel companion, offering personalized travel packages, exclusive deals, and seamless bookings to make your journeys unforgettable.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'explore' %}">Explore Destinations</a></li>
+                    <li><a href="{% url 'packages' %}">Travel Packages</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'faq' %}">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Contact Us</h4>
+                <p>📍 123, ABC Complex, Mumbai-75, India</p>
+                <p>📞 +91 98765 54321</p>
+                <p>📧 support@wanderwise.com</p>
+            </div>
+            <div class="footer-section follow-us">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><img src="{% static 'images/facebook.jpg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images/instagram.jpg' %}" alt="Instagram"></a>
+                    <a href="#"><img src="{% static 'images/x.jpg' %}" alt="Twitter"></a>
+                    <a href="#"><img src="{% static 'images/youtube.jpg' %}" alt="YouTube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 WanderWise | All Rights Reserved | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+
+
+    // Razorpay payment integration
+    function processPayment() {
+        const amount = totalAmount.value.replace(/₹|,/g, ""); // Remove ₹ and commas for calculation
+        const parsedAmount = parseInt(amount, 10) * 100; // Convert to paise
+
+        if (isNaN(parsedAmount) || parsedAmount <= 0) {
+            alert("Please calculate a valid total amount before proceeding.");
+            return;
+        }
+
+        const data = {
+            amount: parsedAmount,
+            package: document.getElementById("package").value,
+        };
+
+        fetch("/create-payment/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.error) {
+                    alert("Error: " + result.error);
+                } else {
+                    const options = {
+                        key: "{{ settings.RAZORPAY_KEY_ID }}",
+                        amount: parsedAmount,
+                        currency: "INR",
+                        name: "Dream Package",
+                        description: "Booking Payment",
+                        order_id: result.order_id,
+                        handler: function (response) {
+                            alert("Payment successful. Payment ID: " + response.razorpay_payment_id);
+                            // Optionally, you can redirect to a success page here
+                        },
+                        prefill: {
+                            name: document.getElementById("name").value,
+                            email: document.getElementById("email").value,
+                        },
+                        theme: {
+                            color: "#3399cc",
+                        },
+                    };
+
+                    const rzp = new Razorpay(options);
+                    rzp.open();
+                }
+            })
+            .catch((error) => {
+                alert("An error occurred while creating the payment: " + error.message);
+            });
+    }
+
+        // Automatically calculate the total amount
+        const checkin = document.getElementById("checkin");
+        const checkout = document.getElementById("checkout");
+        const persons = document.getElementById("persons");
+        const totalAmount = document.getElementById("totalAmount");
+
+        function calculateAmount() {
+            // Ensure all required fields have values
+            if (checkin.value && checkout.value && persons.value) {
+                const checkinDate = new Date(checkin.value);
+                const checkoutDate = new Date(checkout.value);
+
+                // Calculate the time difference in days
+                const timeDiff = checkoutDate - checkinDate;
+                if (timeDiff > 0) {
+                    const nights = timeDiff / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+                    const amount = nights * 1000 * parseInt(persons.value, 10); // ₹1500 per night per person
+                    totalAmount.value = `₹${amount.toLocaleString()}`;
+                } else {
+                    totalAmount.value = "Invalid dates";
+                }
+            } else {
+                totalAmount.value = "₹0"; // Default to ₹0 if inputs are incomplete
+            }
+        }
+
+        // Attach event listeners to recalculate on input changes
+        checkin.addEventListener("input", calculateAmount);
+        checkout.addEventListener("input", calculateAmount);
+        persons.addEventListener("input", calculateAmount);
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("name").value;
+            const package = document.getElementById("package").value;
+            const email = document.getElementById("email").value;
+            const date = document.getElementById("date").value;
+            const preferences = document.getElementById("preferences").value;
+
+            document.getElementById("userName").textContent = name;
+
+            const optionsList = document.getElementById("optionsList");
+            optionsList.innerHTML = "";  // Clear any previous data
+
+            const bookingDetails = `
+                <li><strong>Package:</strong> ${package}</li>
+                <li><strong>Email:</strong> ${email}</li>
+                <li><strong>Travel Date:</strong> ${date}</li>
+                <li><strong>Preferences:</strong> ${preferences || "None"}</li>
+            `;
+
+            optionsList.innerHTML = bookingDetails;
+            document.getElementById("bookingOptions").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>

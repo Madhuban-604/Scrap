@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>WanderWise - Your Travel Companion</title>
+    <style>
+        /* Global Styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            top: 0;
+            position: sticky;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0078a0;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a, .navbar .profile {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover, .navbar .profile:hover {
+            color: #0078a0;
+        }
+
+        /* Main Content Styling */
+        .landing-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .landing-content h1 {
+            font-size: 48px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .landing-content p {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 20px 0;
+        }
+
+        .landing-content .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #0078a0;
+            color: #fff;
+            font-size: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .landing-content .cta-button:hover {
+            background-color: #005f7a;
+        }
+
+        /* Feature Cards Styling */
+        .feature-cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 280px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            color: #0078a0;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Testimonials Styling */
+        .testimonials {
+            background-color: rgba(6, 4, 4, 0.4);
+            padding: 50px 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .testimonials h2 {
+            font-size: 28px;
+            color: #0078a0;
+            margin-bottom: 30px;
+        }
+
+        .testimonial {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonial-content {
+            text-align: left;
+        }
+
+        .testimonial-content p {
+            font-size: 16px;
+            color: #555;
+            margin: 0;
+        }
+
+        .testimonial-content .author {
+            font-weight: bold;
+            color: #0078a0;
+            margin-top: 8px;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px 0;
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #00a2d1;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #00a2d1;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: left;
+            gap: 10px;
+        }
+
+        .social-icons a img {
+            width: 36px;  /* Adjust the icon size as desired */
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+
+        <!-- Navbar -->
+        <div class="navbar">
+            <a href="{% url 'landing' %}" class="brand">WanderWise</a>
+            <div class="nav-links">
+                <a href="{% url 'explore' %}">Explore Destinations</a>
+                <a href="{% url 'packages' %}">Travel Packages</a>
+                <a href="{% url 'bookings' %}">Bookings</a>
+                <a href="{% url 'bookingDetails' %}">Details</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+            </div>
+            <a href="{% url 'profile' %}" class="profile">👤Profile</a>
+        </div>
+
+    <!-- Main Landing Content -->
+    <div class="landing-content">
+        <h1>Welcome to WanderWise</h1>
+        <p>Your ultimate guide to explore new destinations, book personalized travel packages, and create unforgettable memories.</p>
+        <a href="{% url 'explore' %}" class="cta-button">Start Your Journey</a>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="feature-cards">
+        <div class="feature-card">
+            <img src="{% static 'images/explore.jpg' %}" alt="Explore Destinations">
+            <h3>Explore Destinations</h3>
+            <p>Discover hidden gems and popular travel spots around the world to plan your next adventure.</p>
+        </div>
+        <div class="feature-card">
+            <img src="{% static 'images/packages.jpg' %}" alt="Travel Packages">
+            <h3>Exclusive Packages</h3>
+            <p>Choose from curated travel packages to enjoy the best experiences tailored to your needs.</p>
+        </div>
+        <div class="feature-card">
+            <img src="{% static 'images/booking.jpg' %}" alt="Easy Bookings">
+            <h3>Easy Bookings</h3>
+            <p>Seamlessly book flights, hotels, and tours with our user-friendly booking system.</p>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="testimonials">
+        <h2>What Our Travelers Say</h2>
+        <div class="testimonial">
+            <img src="{% static 'images/user1.jpg' %}" alt="User 1">
+            <div class="testimonial-content">
+                <p>"WanderWise made my trip planning so easy and fun! The packages were amazing, and I didn't have to worry about a thing."</p>
+                <span class="author">- Ramesh K.</span>
+            </div>
+        </div>
+        <div class="testimonial">
+            <img src="{% static 'images/user2.jpg' %}" alt="User 2">
+            <div class="testimonial-content">
+                <p>"I've never experienced such seamless bookings before. WanderWise takes care of everything, letting me enjoy my vacation fully."</p>
+                <span class="author">- Suresh D.</span>
+            </div>
+        </div>
+        <div class="testimonial">
+            <img src="{% static 'images/user3.jpg' %}" alt="User 3">
+            <div class="testimonial-content">
+                <p>"The exclusive deals are unbeatable, and the support team is fantastic. I highly recommend WanderWise for all travel needs!"</p>
+                <span class="author">- Sita Kumari .A</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About WanderWise</h4>
+                <p>WanderWise is your go-to travel companion, offering personalized travel packages, exclusive deals, and seamless bookings to make your journeys unforgettable.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'explore' %}">Explore Destinations</a></li>
+                    <li><a href="{% url 'packages' %}">Travel Packages</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'faq' %}">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Contact Us</h4>
+                <p>📍 123, ABC Complex, Mumbai-75, India</p>
+                <p>📞 +91 98765 54321</p>
+                <p>📧 support@wanderwise.com</p>
+            </div>
+            <div class="footer-section follow-us">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><img src="{% static 'images/facebook.jpg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images/instagram.jpg' %}" alt="Instagram"></a>
+                    <a href="#"><img src="{% static 'images/x.jpg' %}" alt="Twitter"></a>
+                    <a href="#"><img src="{% static 'images/youtube.jpg' %}" alt="YouTube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 WanderWise | All Rights Reserved | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+    
+
+</body>
+</html>

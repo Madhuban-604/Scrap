@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Your Email</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: #333;
+        }
+        .email-wrapper {
+            max-width: 650px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .email-header {
+            background: linear-gradient(135deg, #4a90e2, #6a0dad);
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+        .email-header h1 {
+            font-size: 32px;
+            margin: 0;
+            font-weight: 700;
+        }
+        .email-header p {
+            font-size: 18px;
+            margin: 10px 0 0;
+        }
+        .email-body {
+            padding: 30px;
+            text-align: center;
+        }
+        .email-body h2 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        .email-body p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin: 10px 0;
+        }
+        .email-body .cta-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 14px 28px;
+            background: #4a90e2;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(74, 144, 226, 0.4);
+            transition: transform 0.2s ease-in-out;
+        }
+        .email-body .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(74, 144, 226, 0.6);
+        }
+        .backup-link {
+            display: block;
+            margin: 20px 0;
+            font-size: 14px;
+            word-wrap: break-word;
+            text-align: center;
+            color: #4a90e2;
+        }
+        .email-footer {
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+        .email-footer a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .email-footer img {
+            margin-top: 10px;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <!-- Header Section -->
+        <div class="email-header">
+            <h1>Welcome to WanderWise!!!</h1>
+            <p>Thank you for Singup!!!</p>
+        </div>
+
+        <!-- Body Section -->
+        <div class="email-body">
+            <h2>Hello {{ user.first_name }}!</h2>
+            <p>We’re thrilled to have you on board. WanderWise is your gateway to amazing travel experiences. Let’s get started—confirm your email by clicking the button below:</p>
+            <a href="{{ confirmation_url }}" class="cta-button">Confirm Your Email</a>
+            <p>If the button above doesn’t work, copy and paste the following link into your browser:</p>
+            <a href="{{ confirmation_url }}" class="backup-link">{{ confirmation_url }}</a>
+            <p>If you didn’t sign up for WanderWise, please disregard this email.</p>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="email-footer">
+            <p>&copy; {{ current_year }} WanderWise, Inc. All rights reserved.</p>
+            <p>WanderWise HQ, Mumbai, India</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <img src="https://via.placeholder.com/120x40?text=WanderWise" alt="WanderWise Logo">
+        </div>
+    </div>
+</body>
+</html>

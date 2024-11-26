@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Frequently Asked Questions - WanderWise</title>
+    <style>
+        /* Global Styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            top: 0;
+            position: sticky;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0078a0;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a, .navbar .profile {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover, .navbar .profile:hover {
+            color: #0078a0;
+        }
+
+        /* FAQ Section Styling */
+        .faq-section {
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            justify-content: left;
+            min-height: 70vh;
+            text-align: left;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-section h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #0078a0;
+        }
+
+        .faq-item {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .faq-item h3 {
+            cursor: pointer;
+            margin: 0;
+            padding: 10px;
+            background-color: #0078a0;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .faq-item h3:hover {
+            background-color: #005f7f;
+        }
+
+        .faq-item p {
+            display: none;
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #0078a0;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px 0;
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #00a2d1;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #00a2d1;
+        }
+
+        .social-icons a img {
+            width: 36px;  /* Adjust the icon size as desired */
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const questions = document.querySelectorAll('.faq-item h3');
+            questions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+
+        <!-- Navbar -->
+        <div class="navbar">
+            <a href="{% url 'landing' %}" class="brand">WanderWise</a>
+            <div class="nav-links">
+                <a href="{% url 'explore' %}">Explore Destinations</a>
+                <a href="{% url 'packages' %}">Travel Packages</a>
+                <a href="{% url 'bookings' %}">Bookings</a>
+                <a href="{% url 'bookingDetails' %}">Details</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+            </div>
+            <a href="{% url 'profile' %}" class="profile">👤Profile</a>
+        </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq-item">
+            <h3>1. What is WanderWise?</h3>
+            <p>WanderWise is a travel planning system that helps users find and book travel packages tailored to their preferences.</p>
+        </div>
+        <div class="faq-item">
+            <h3>2. How can I book a travel package?</h3>
+            <p>You can book a travel package by navigating to the "Travel Packages" section, selecting your desired package, and following the booking process.</p>
+        </div>
+        <div class="faq-item">
+            <h3>3. What payment methods do you accept?</h3>
+            <p>We accept various payment methods, including credit cards, debit cards, and PayPal.</p>
+        </div>
+        <div class="faq-item">
+            <h3>4. Can I customize my travel package?</h3>
+            <p>Yes, many of our packages can be customized to fit your specific needs and preferences. Contact us for more details.</p>
+        </div>
+        <div class="faq-item">
+            <h3>5. Is travel insurance included in the packages?</h3>
+            <p>Travel insurance is not included in our packages, but we highly recommend purchasing it separately for your protection.</p>
+        </div>
+        <div class="faq-item">
+            <h3>6. What happens if I need to cancel my trip?</h3>
+            <p>Cancellations are subject to our cancellation policy. Please refer to the terms and conditions or contact our support team for assistance.</p>
+        </div>
+        <div class="faq-item">
+            <h3>7. Do you offer group discounts?</h3>
+            <p>Yes, we offer discounts for group bookings. Please contact our team for more information.</p>
+        </div>
+        <div class="faq-item">
+            <h3>8. How do I contact customer support?</h3>
+            <p>You can contact customer support via our contact page or email us directly at support@wanderwise.com.</p>
+        </div>
+        <div class="faq-item">
+            <h3>9. Are there age restrictions for booking travel packages?</h3>
+            <p>There are no age restrictions, but some activities may have age requirements. Please check the specific package details.</p>
+        </div>
+        <div class="faq-item">
+            <h3>10. Can I make changes to my booking?</h3>
+            <p>Changes can be made depending on availability and may incur fees. Please contact our support team for assistance.</p>
+        </div>
+
+        <h2>Website Questions</h2>
+        <div class="faq-item">
+            <h3>1. How do I create an account on WanderWise?</h3>
+            <p>You can create an account by clicking on the "Sign Up" link on the landing page and filling out the required information.</p>
+        </div>
+        <div class="faq-item">
+            <h3>2. How can I reset my password?</h3>
+            <p>To reset your password, click on the "Forgot Password?" link on the login page and follow the instructions sent to your email.</p>
+        </div>
+        <div class="faq-item">
+            <h3>3. Where can I find my booking history?</h3>
+            <p>You can view your booking history by logging into your account and navigating to the "My Bookings" section.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About WanderWise</h4>
+                <p>WanderWise is your go-to travel companion, offering personalized travel packages, exclusive deals, and seamless bookings to make your journeys unforgettable.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'explore' %}">Explore Destinations</a></li>
+                    <li><a href="{% url 'packages' %}">Travel Packages</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'faq' %}">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Contact Us</h4>
+                <p>📍 123, ABC Complex, Mumbai-75, India</p>
+                <p>📞 +91 98765 54321</p>
+                <p>📧 support@wanderwise.com</p>
+            </div>
+            <div class="footer-section follow-us">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><img src="{% static 'images/facebook.jpg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images/instagram.jpg' %}" alt="Instagram"></a>
+                    <a href="#"><img src="{% static 'images/x.jpg' %}" alt="Twitter"></a>
+                    <a href="#"><img src="{% static 'images/youtube.jpg' %}" alt="YouTube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 WanderWise | All Rights Reserved | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+</body>
+</html>

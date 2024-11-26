@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Bookings | WanderWise</title>
+    <style>
+        /* Global Styles */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .navbar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0078a0;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a,
+        .navbar .profile {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover,
+        .navbar .profile:hover {
+            color: #0078a0;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 50px 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+            flex-grow: 1;
+            margin-top: 80px;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            color: #0078a0;
+            margin-bottom: 20px;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* Center Button Styling */
+        .center-button {
+            display: flexbox;
+            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Global Button Styling */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border: none;
+        }
+
+        /* Explore Packages Button */
+        .explore-btn {
+            background-color: #005f7a;
+            color: white;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .explore-btn:hover {
+            background-color: #005f7a;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px 0;
+            font-size: 14px;
+            width: 100%;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: left;
+            gap: 10px;
+        }
+
+        .social-icons a img {
+            width: 36px;
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="{% url 'landing' %}" class="brand">WanderWise</a>
+        <div class="nav-links">
+            <a href="{% url 'explore' %}">Explore Destinations</a>
+            <a href="{% url 'packages' %}">Travel Packages</a>
+            <a href="{% url 'bookings' %}">Bookings</a>
+            <a href="{% url 'bookingDetails' %}">Details</a>
+            <a href="{% url 'contact' %}">Contact Us</a>
+        </div>
+        <a href="{% url 'profile' %}" class="profile">👤Profile</a>
+    </div>
+
+    {% if user.is_authenticated %}
+        <!-- User is logged in -->
+        {% if not booking_data %}
+            <!-- No booking data in session, show gentle message with buttons -->
+            <div class="booking-form">
+                <p>It looks like you haven’t made any bookings yet, but no worries! 
+                    You’re just a few steps away from your next adventure. You can:</p>
+                <p><strong>Browse our handpicked Travel Packages</strong></p>
+                <div class="center-button">
+                    <a href="{% url 'packages' %}" class="btn explore-btn">Explore Packages</a>
+                </div>
+                <p><strong>Or, plan your perfect trip with a custom date</strong></p>
+                <div class="center-button">
+                    <a href="{% url 'bookings' %}" class="btn explore-btn">Start Your Custom Booking</a>
+                </div>
+            </div>
+        {% else %}
+            <!-- Display the booking details if booking exists -->
+            <div class="booking-form">
+                <h2>Your Booking Details</h2>
+                <p><strong>Package Name:</strong> {{ booking_data.package_name }}</p>
+                <p><strong>Booking Date:</strong> {{ booking_data.date }}</p>
+                <p><strong>Preferences:</strong> {{ booking_data.preferences }}</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <!-- User is not logged in -->
+        <div class="booking-form">
+            <p>Please log in to view your booking details.</p>
+            <div class="center-button">
+                <a href="{% url 'login' %}" class="btn">Login</a>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About WanderWise</h4>
+                <p>WanderWise is your go-to travel companion, offering personalized travel packages and experiences.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Packages</a></li>
+                    <li><a href="#">Destinations</a></li>
+                    <li><a href="#">Bookings</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="#">Email Us</a></li>
+                    <li><a href="#">Call Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 WanderWise. All Rights Reserved.</p>
+            <div class="social-icons">
+                <a href="#" title="Facebook"><img src="{% static 'images/facebook.png' %}" alt="Facebook"></a>
+                <a href="#" title="Instagram"><img src="{% static 'images/instagram.png' %}" alt="Instagram"></a>
+                <a href="#" title="Twitter"><img src="{% static 'images/twitter.png' %}" alt="Twitter"></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

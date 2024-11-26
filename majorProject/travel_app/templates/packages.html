@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Travel Packages | WanderWise</title>
+    <style>
+        /* Inherit Global Styles */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0078a0;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a,
+        .navbar .profile {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover,
+        .navbar .profile:hover {
+            color: #0078a0;
+        }
+
+        /* Packages Page Content */
+        .content {
+            padding: 50px 20px;
+            max-width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            color: #0078a0;
+            margin-bottom: 20px;
+        }
+
+        .package-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .package-card {
+            background-color: #fff;
+            width: 280px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .package-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .package-card h3 {
+            font-size: 22px;
+            color: #0078a0;
+            margin-bottom: 10px;
+        }
+
+        .package-card p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .package-card .view-details {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #0078a0;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .package-card .view-details:hover {
+            background-color: #005f7a;
+        }
+
+        /* Popup Styling */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            animation: popupIn 0.3s forwards;
+        }
+
+        @keyframes popupIn {
+            from {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-header {
+            font-size: 24px;
+            color: #0078a0;
+            margin-bottom: 15px;
+            text-align: left;
+            /* Ensure each paragraph aligns left */
+        }
+
+        .popup-body {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .popup-close {
+            padding: 10px 20px;
+            background-color: #0078a0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .popup-close:hover {
+            background-color: #005f7a;
+        }
+
+        .popup-body p {
+            margin: 10px 0;
+            font-size: 16px;
+            text-align: left;
+            /* Ensure each paragraph aligns left */
+        }
+
+        .popup-body strong {
+            color: #0078a0;
+        }
+
+        /* Modify .pay-button to look like the "View Details" button */
+        .pay-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #0078a0;
+            /* Matching background color */
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pay-button:hover {
+            background-color: #005f7a;
+            /* Matching hover effect */
+        }
+
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px 0;
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #00a2d1;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #00a2d1;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons a img {
+            width: 36px;
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="{% url 'landing' %}" class="brand">WanderWise</a>
+        <div class="nav-links">
+            <a href="{% url 'explore' %}">Explore Destinations</a>
+            <a href="{% url 'packages' %}">Travel Packages</a>
+            <a href="{% url 'bookings' %}">Bookings</a>
+            <a href="{% url 'bookingDetails' %}">Details</a>
+            <a href="{% url 'contact' %}">Contact Us</a>
+        </div>
+        <a href="{% url 'profile' %}" class="profile">👤Profile</a>
+    </div>
+
+    <!-- Packages Content -->
+    <div class="content">
+        <h1>Our Travel Packages</h1>
+        <div class="package-grid">
+            <!-- Package 1 -->
+            <div class="package-card">
+                <h3>Sunny Beach Getaway</h3>
+                <p>Relax by the sandy shores with a luxurious stay, perfect for families and couples alike.</p>
+                <a href="#" class="view-details" onclick="showPopup(
+            'Sunny Beach Getaway',
+            '🏖️ Escape to paradise with exclusive beach access, tranquil surroundings, and vibrant local culture. Perfect for families, couples, or solo travelers! Lounge on pristine beaches, witness unforgettable sunsets, and explore nearby attractions.',
+            '🍽️ All-inclusive meals with a variety of cuisines, \n🚌 hassle-free airport transfers, \n🌅 daily guided tours to scenic spots, \n🍹 complimentary welcome drinks, \n🏄‍♂️ access to water sports, \n📞 24/7 on-demand customer support, \n🎟️ exclusive entry passes to beachside events.',
+            '5 Days, 4 Nights – fully packed with exciting activities and relaxation.',
+            '₹6999 per person (Early bird discounts and group packages available)')">View Details</a>
+                <button class="pay-button" data-amount="6999" data-package="Sunny Beach Getaway">Book Now</button>
+            </div>
+
+            <!-- Package 2 -->
+            <div class="package-card">
+                <h3>Mountain Adventure</h3>
+                <p>Escape to the mountains and enjoy hiking, fresh air, and cozy cabins.</p>
+                <a href="#" class="view-details" onclick="showPopup(
+                'Mountain Adventure',
+                '🏔️ Embrace nature with thrilling hikes, breathtaking views, and unforgettable experiences! 🥾 Perfect for adventure seekers and nature lovers looking to unwind in a cozy mountain cabin surrounded by stunning landscapes.',
+                '🍽️ Delicious meals featuring local flavors, prepared by expert chefs\n🚌 Convenient airport transfers to and from your accommodation\n🌄 Guided hiking tours led by experienced local guides, exploring hidden trails and scenic vistas\n🔥 Evening campfire sessions with storytelling and s\'mores under the stars\n🏕️ Accommodation in cozy mountain cabins, equipped with all the comforts of home\n📞 24/7 customer support for all your needs, ensuring a seamless travel experience\n🎟️ Entry to local attractions and activities, including guided wildlife tours and cultural experiences\n🎒 Complimentary hiking gear rental for your convenience',
+                '4 Days, 3 Nights',
+                '₹5999 per person')">View Details
+                </a>
+                <button class="pay-button" data-amount="5999" data-package="Mountain Adventure">Book Now</button>
+            </div>
+
+            <!-- Package 3 -->
+            <div class="package-card">
+                <h3>City Exploration</h3>
+                <p>Immerse yourself in the local culture with guided tours, food tasting, and more!</p>
+                <a href="#" class="view-details" onclick="showPopup(
+            'City Exploration',
+            '🌆 Explore the heart of the city with guided tours, historical landmarks, and local food experiences. Perfect for those looking to dive deep into city life.',
+            '🍕 Street food tasting \n🏛️ Visits to famous monuments \n🚌 Comfortable city tours \n🎤 Live cultural performances \n🚖 Free city transport passes \n🎟️ Skip-the-line access to popular museums',
+            '3 days & 2 nights',
+            '₹4999 per person')">View Details</a>
+                <button class="pay-button" data-amount="4999" data-package="City Exploration">Book Now</button>
+            </div>
+
+            <!-- Package 4 -->
+            <div class="package-card">
+                <h3>Desert Adventure</h3>
+                <p>Conquer the dunes with camel rides, stargazing, and desert exploration.</p>
+                <a href="#" class="view-details" onclick="showPopup(
+            'Desert Adventure',
+            '🏜️ Experience the vast desert landscapes, ride camels across sand dunes, and explore ancient desert towns. Perfect for adventurous souls.',
+            '🐫 Camel rides \n🌌 Stargazing at night \n🏜️ Desert exploration tours \n🔥 Bonfire under the stars \n🍽️ Authentic desert cuisine \n🏨 Overnight stay in desert camps \n🛵 Quad biking across sand dunes \n🎶 Traditional desert music performances',
+            '4 days & 3 nights',
+            '₹5999 per person')">View Details</a>
+                <button class="pay-button" data-amount="5999" data-package="Desert Adventure">Book Now</button>
+            </div>
+
+            <!-- Package 5 -->
+            <div class="package-card">
+                <h3>Lake Serenity</h3>
+                <p>Enjoy the peaceful ambiance of lakeside retreats, boat tours, and nature walks.</p>
+                <a href="#" class="view-details" onclick="showPopup(
+            'Lake Serenity',
+            '🚤 Escape to serene lakeside retreats, enjoy boat rides, and soak in the tranquility of the lake.',
+            '🚤 Boat tours \n🦆 Birdwatching \n🥾 Guided nature walks \n🏖️ Lakeside relaxation and picnics \n🌅 Sunrise and sunset boat cruises \n🍽️ Delicious lakeside dining \n🎣 Fishing excursions \n🎟️ Complimentary access to nearby eco-tourism parks',
+            '3 days & 2 nights',
+            '₹3999 per person')">View Details</a>
+                <button class="pay-button" data-amount="3999" data-package="Lake Serenity">Book Now</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <div class="popup-header" id="popup-header">Package Title</div>
+            <div class="popup-body">
+                <p><strong>Highlights:</strong> <span id="popup-highlights">Explore pristine beaches, luxury stays, and
+                        more.</span></p>
+                <p><strong>Included Services:</strong> <span id="popup-services">Meals, airport transfers, daily
+                        excursions, 24/7 support</span></p>
+                <p><strong>Duration:</strong> <span id="popup-duration">5 Days, 4 Nights</span></p>
+                <p><strong>Price:</strong> <span id="popup-price">₹8999 per person</span></p>
+            </div>
+            <button class="popup-close" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About WanderWise</h4>
+                <p>WanderWise is your travel companion, offering personalized packages, exclusive deals, and seamless
+                    bookings to make your journeys unforgettable.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'explore' %}">Explore Destinations</a></li>
+                    <li><a href="{% url 'packages' %}">Travel Packages</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'faq' %}">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Contact Us</h4>
+                <p>📍 123, ABC Complex, Mumbai-75, India</p>
+                <p>📞 +91 98765 54321</p>
+                <p>📧 support@wanderwise.com</p>
+            </div>
+            <div class="footer-section follow-us">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><img src="{% static 'images/facebook.jpg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images/instagram.jpg' %}" alt="Instagram"></a>
+                    <a href="#"><img src="{% static 'images/x.jpg' %}" alt="Twitter"></a>
+                    <a href="#"><img src="{% static 'images/youtube.jpg' %}" alt="YouTube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 WanderWise | All Rights Reserved | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        function showPopup(title, highlights, services, duration, price) {
+            document.getElementById("popup-header").innerText = title;
+            document.getElementById("popup-highlights").innerText = highlights;
+            document.getElementById("popup-services").innerText = services;
+            document.getElementById("popup-duration").innerText = duration;
+            document.getElementById("popup-price").innerText = price;
+
+            const popup = document.getElementById("popup");
+            popup.style.display = "flex";
+            popup.style.opacity = "1";
+        }
+
+        function closePopup() {
+            const popup = document.getElementById("popup");
+            popup.style.opacity = "0";
+            setTimeout(() => { popup.style.display = "none"; }, 300);
+        }
+
+
+        const buttons = document.querySelectorAll('.pay-button');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const amount = this.getAttribute('data-amount') * 100; // Convert to paise
+                const packageName = this.getAttribute('data-package');
+
+                fetch('{% url "create_payment" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ amount: amount, package: packageName })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.order_id) {
+                            const options = {
+                                key: "{{ settings.RAZORPAY_KEY_ID }}",
+                                amount: amount,
+                                currency: "INR",
+                                name: "WanderWise",
+                                description: packageName,
+                                order_id: data.order_id,
+                                handler: function (response) {
+                                    console.log("Payment successful! Razorpay Payment ID: ", response.razorpay_payment_id);
+                                    console.log("Order ID: ", response.razorpay_order_id);
+                                    console.log("Signature: ", response.razorpay_signature);
+                                    alert("Test payment was successful!");
+                                },
+                                prefill: {
+                                    name: "{{ request.user.first_name }} {{ request.user.last_name }}",
+                                    email: "{{ request.user.email }}",
+                                    contact: "9999999999"
+                                },
+                                theme: {
+                                    color: "#0078a0"
+                                }
+                            };
+
+                            const rzp = new Razorpay(options);
+                            rzp.open();
+                        } else {
+                            alert("Failed to create order. Please try again.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            });
+        });
+    </script>
+
+</body>
+
+</html>

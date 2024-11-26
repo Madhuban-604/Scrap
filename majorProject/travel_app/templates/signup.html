@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Signup</title>
+    <style>
+        /* Global Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Centered container */
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            padding-top: 40px; /* Adds space from the top */
+            box-sizing: border-box;
+        }
+
+        /* Signup box */
+        .signup-box {
+            background: rgba(255, 255, 255, 0.85); /* Slightly opaque white */
+            padding: 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: none;
+        }
+
+        /* Title */
+        .signup-box h2 {
+            font-size: 28px; /* Adjusted font size */
+            margin-bottom: 30px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Input styling */
+        .signup-box input, .signup-box select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .signup-box input:focus, .signup-box select:focus {
+            border-color: #00b4db;
+            outline: none;
+        }
+
+        /* Button styling */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background-color: #00b4db;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0083b0;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form feedback */
+        .signup-box p {
+            color: #666;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Success message styling */
+        .success-message {
+            color: green;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-box">
+            <h2>Create Your Account</h2>
+            
+            <!-- Display messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="success-message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <!-- Username field -->
+                <input type="text" name="username" placeholder="Username" required>
+                
+                <!-- First name and last name fields -->
+                <input type="text" name="first_name" placeholder="First Name" required>
+                <input type="text" name="last_name" placeholder="Last Name" required>
+                
+                <!-- Country code and phone number fields in a single line -->
+                <div style="display: flex; gap: 10px;">
+                    <select name="country_code" style="width: 20%;" required>
+                        <option value="+1">+1 (USA)</option>
+                        <option value="+ 44">+44 (UK)</option>
+                        <option value="+ 91" selected>+91 (India)</option>
+                        <!-- Add more country codes here as needed -->
+                    </select>
+                    <input type="text" name="phone_number" placeholder="Phone Number" style="width: 80%;" required>
+                </div>
+                
+                <!-- Email field -->
+                <input type="email" name="email" placeholder="Email" required>
+                
+                <!-- Password field -->
+                <input type="password" name="password" placeholder="Password" required>
+                
+                <button type="submit" class="btn">Sign Up</button>
+            </form>
+            
+            <p>Already have an account? <a href="{% url 'login' %}" style="color: #00b4db;">Login here</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

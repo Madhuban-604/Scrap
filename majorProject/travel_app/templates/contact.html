@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Contact Us - WanderWise</title>
+    <style>
+        /* Global Styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: rgba(255, 255, 255);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            top: 0;
+            position: sticky;
+            z-index: 1000;
+        }
+
+        .navbar .brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0078a0;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-links a, .navbar .profile {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .navbar .nav-links a:hover, .navbar .profile:hover {
+            color: #0078a0;
+        }
+
+        /* Contact Section Styling */
+        .contact-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-section h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #0078a0;
+        }
+
+        .contact-section p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 40px 0;
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+
+        .footer-section {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+
+        .footer-section h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #00a2d1;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li a {
+            color: #ddd;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #00a2d1;
+        }
+
+        .social-icons a img {
+            width: 36px;  /* Adjust the icon size as desired */
+            height: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+        <!-- Navbar -->
+        <div class="navbar">
+            <a href="{% url 'landing' %}" class="brand">WanderWise</a>
+            <div class="nav-links">
+                <a href="{% url 'explore' %}">Explore Destinations</a>
+                <a href="{% url 'packages' %}">Travel Packages</a>
+                <a href="{% url 'bookings' %}">Bookings</a>
+                <a href="{% url 'bookingDetails' %}">Details</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+            </div>
+            <a href="{% url 'profile' %}" class="profile">👤Profile</a>
+        </div>
+
+    <!-- Contact Section -->
+    <div class="contact-section">
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you!</p>
+        <div class="contact-info">
+            <p><strong>Address:</strong> 123 Travel St., New York, NY 10001</p>
+            <p><strong>Phone:</strong> +1 234 567 890</p>
+            <p><strong>Email:</strong> support@wanderwise.com</p>
+            <p><strong>Business Hours:</strong> Monday - Friday, 9 AM - 6 PM</p>
+        </div>
+        <p>If you have any questions or need assistance with your bookings, feel free to reach out to us through any of the contact methods listed above.</p>
+        <p>Your satisfaction is our priority!</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h4>About WanderWise</h4>
+                <p>WanderWise is your go-to travel companion, offering personalized travel packages, exclusive deals, and seamless bookings to make your journeys unforgettable.</p>
+            </div>
+            <div class="footer-section links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{% url 'explore' %}">Explore Destinations</a></li>
+                    <li><a href="{% url 'packages' %}">Travel Packages</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'profile' %}">Your Profile</a></li>
+                    <li><a href="{% url 'faq' %}">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact">
+                <h4>Contact Us</h4>
+                <p>📍 123, ABC Complex, Mumbai-75, India</p>
+                <p>📞 +91 98765 54321</p>
+                <p>📧 support@wanderwise.com</p>
+            </div>
+            <div class="footer-section follow-us">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><img src="{% static 'images/facebook.jpg' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images/instagram.jpg' %}" alt="Instagram"></a>
+                    <a href="#"><img src="{% static 'images/x.jpg' %}" alt="Twitter"></a>
+                    <a href="#"><img src="{% static 'images/youtube.jpg' %}" alt="YouTube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 WanderWise | All Rights Reserved | Privacy Policy | Terms of Service</p>
+        </div>
+    </div>
+    
+</body>
+</html>
